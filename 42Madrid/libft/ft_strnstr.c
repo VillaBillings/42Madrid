@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:17:38 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/01/18 16:48:07 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/02/03 16:21:59 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,58 @@
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	int	i;
+	int		i;
+	size_t	x;
 
 	i = 0;
-	while (i < (int)len)
+	x = 0;
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (x < len && haystack[x] != '\0')
 	{
-		if (haystack == needle)
+		i = 0;
+		while (haystack[x + i] == needle[i] && (x + i) < len)
 		{
-			needle++;
 			i++;
 			if (needle[i] == '\0')
-				return ((void *)(haystack - i));
+				return ((char *)&haystack[x]);
 		}
-		else
-		{
-			needle = needle - i;
-			i = 0;
-		}
-		haystack++;
+		x++;
 	}
-	return (NULL);
+	return (0);
 }
+
+/*
+#include <string.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	const char	haystack[] = "aaabcabcd";
+	const char	needle[] = "aabc";
+	size_t		len;
+	char		*result;
+	char		*originalResult;
+
+	len = -1;
+	result = ft_strnstr(haystack, needle, len);
+	if (result)
+		printf("La función ft_strnstr encontró la subcadena: %s\n", result);
+	else
+		printf("La función ft_strnstr no encontró la subcadena.\n");
+
+	// Comparación con la función original strnstr
+	
+	originalResult = strnstr(haystack, needle, len);
+	if ((result == NULL && originalResult == NULL) || strcmp(result,
+			originalResult) == 0)
+	{
+		printf("La implementación de ft_strnstr es correcta.\n");
+	}
+	else
+	{
+		printf("La implementación de ft_strnstr es incorrecta.\n");
+	}
+	return (0);
+}
+*/

@@ -6,11 +6,11 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:01:51 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/01/09 14:15:14 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:18:04 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	isdigit(int c)
+int	ft_isdigit(int c)
 {
 	if (c >= 48 && c <= 57)
 	{

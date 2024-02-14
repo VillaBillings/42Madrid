@@ -6,45 +6,33 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:25:21 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/01/18 16:32:53 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:24:39 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_lenstr(char *str)
-{
-	int	x;
+#include "libft.h"
 
-	x = 0;
-	while (str[x] != '\0')
-	{
-		x++;
-	}
-	return (x);
-}
-
-unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char			*mix;
-	int				x;
-	int				y;
+	size_t			x;
+	size_t			y;
 	unsigned int	len_dest;
 	unsigned int	len_src;
 
 	y = 0;
-	mix = dest;
-	len_dest = ft_lenstr(dest);
-	len_src = ft_lenstr(src);
-	if (size == 0)
+	len_dest = ft_strlen(dst);
+	len_src = ft_strlen(src);
+	if (dstsize == 0)
 		return (len_src);
-	if (size <= len_dest)
-		return (size + len_src);
-	x = len_dest + ft_lenstr(src);
-	while (src[y] != '\0' && x < (int)size - 1)
+	if (dstsize < len_dest)
+		return (dstsize + len_src);
+	x = ft_strlen(dst);
+	while (src[y] != '\0' && x < dstsize - 1)
 	{
-		mix[x] = src[y];
-		y++;
+		dst[x] = src[y];
 		x++;
+		y++;
 	}
-	mix[x] = '\0';
-	return (x);
+	dst[x] = '\0';
+	return (len_dest + len_src);
 }

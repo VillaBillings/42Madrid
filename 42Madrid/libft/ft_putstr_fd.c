@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 12:41:57 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/01/24 19:44:01 by ivillanu         ###   ########.fr       */
+/*   Created: 2024/02/03 19:36:01 by ivillanu          #+#    #+#             */
+/*   Updated: 2024/02/05 16:47:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+void	ft_putstr_fd(char *s, int fd)
 {
-	int		i;
-	char	x;
+	int	i;
 
-	x = (char)c;
-	i = ft_strlen(s);
-	if (x == '\0')
-		return ((char *)(s + i));
-	while (i > 0)
+	i = 0;
+	while (*s)
 	{
-		if (*(s + i -1) == x)
-		{
-			return ((char *)(s + i - 1));
-		}
-		i--;
+		ft_putchar_fd(s[i], fd);
+		i++;
+		s++;
 	}
-	return (0);
 }

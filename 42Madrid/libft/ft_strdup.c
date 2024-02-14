@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 18:08:40 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/01/30 19:29:10 by ivillanu         ###   ########.fr       */
+/*   Created: 2024/01/26 12:53:07 by ivillanu          #+#    #+#             */
+/*   Updated: 2024/01/26 18:07:40 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
-#include "libft.h"
+#include "libft.h" 
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+char	*ft_strdup(const char *s1)
 {
-	unsigned char	*d;
-	unsigned char	*s;
-	size_t			i;
+	char	*copy;
+	size_t	len;
 
-	d = (unsigned char *)dst;
-	s = (unsigned char *)src;
-	i = 0;
-	if (!dst && !src)
-		return (0);
-	if (s < d)
-	{
-		i = len;
-		while (i > 0)
-		{
-			i--;
-			d[i] = s[i];
-		}
-	}
-	else
-		ft_memcpy(dst, src, len);
-	return (dst);
+	len = ft_strlen(s1) + 1;
+	copy = malloc (len * sizeof(char));
+	if (!copy)
+		return (NULL);
+	ft_memcpy(copy, s1, len);
+	return (copy);
 }
