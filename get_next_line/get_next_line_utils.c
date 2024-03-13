@@ -6,11 +6,11 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:57:49 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/03/11 15:34:42 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:58:29 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <string.h>
+#include <string.h>
 #include "get_next_line.h"
 
 size_t	ft_strlen(char *s)
@@ -59,7 +59,6 @@ char	*ft_strjoinlen(char *s1, char *s2, size_t len)
 	ft_memlcpy(d1 + len_s1, s2, max_len + 1);
 	return (d1);
 }
-
 
 int	ft_findnchar(char *read_buf)
 {
