@@ -6,18 +6,19 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:59:22 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/03/13 15:03:21 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:03:11 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 40
 # endif
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_list
 {

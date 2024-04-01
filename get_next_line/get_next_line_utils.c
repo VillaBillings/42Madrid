@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:57:49 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/03/13 15:58:29 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:56:18 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_findnchar(char *read_buf)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (i);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
