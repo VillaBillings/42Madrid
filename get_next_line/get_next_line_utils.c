@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:33:04 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/02 19:57:12 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:39:09 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_strjoinlen(char *s1, char *s2, size_t len)
 	if (!s1 && !s2)
 		return (0);
 	len_s1 = ft_strlen(s1); 
-	max_len = ft_strlen(s2) + len_s1;
+	max_len = len + len_s1;
 	d1 = (char *)malloc((max_len + 1) * sizeof(char));
 	if (!d1)
 		return (NULL);
@@ -77,14 +77,12 @@ size_t		count_to_jump(char *buf)
 	return (i);
 }
 
-int			temp_has_jump(char *temp)
+char	*free_null(char **s)
 {
-	size_t		num_jump;
-	size_t		len;
-
-	len = ft_strlen(temp);
-	num_jump = count_to_jump(temp);
-	if (num_jump < len)
-		return (1);
-	return (0);
+	if (*s != NULL)
+	{
+		free(*s);
+		*s = NULL;
+	}
+	return (NULL);
 }
