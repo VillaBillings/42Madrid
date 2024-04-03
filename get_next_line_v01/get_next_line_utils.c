@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 13:33:04 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/02 19:57:12 by ivillanu         ###   ########.fr       */
+/*   Created: 2024/02/28 14:57:49 by ivillanu          #+#    #+#             */
+/*   Updated: 2024/04/01 16:23:25 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	ft_strlen(char *s)
 	return (x);
 }
 
-char	*ft_strlcpy(char *dst, char *src, size_t dstsize)
+char	*ft_memlcpy(char *dst, char *src, size_t dstsize)
 {
 	size_t	x;
 
@@ -46,45 +46,32 @@ char	*ft_strjoinlen(char *s1, char *s2, size_t len)
 {
 	size_t	max_len;
 	size_t	len_s1;
-	size_t	len_s2;
 	char	*d1;
 
 	if (!s1 && !s2)
 		return (0);
-	len_s1 = ft_strlen(s1); 
-	max_len = ft_strlen(s2) + len_s1;
+	max_len = len;
+	len_s1 = ft_strlen(s1);
 	d1 = (char *)malloc((max_len + 1) * sizeof(char));
 	if (!d1)
 		return (NULL);
-	ft_strlcpy(d1, s1, len_s1 + 1);
-	ft_strlcpy(d1 + len_s1, s2, max_len + 1);
+	ft_memlcpy(d1, s1, len_s1 + 1);
+	ft_memlcpy(d1 + len_s1, s2, max_len + 1);
 	return (d1);
 }
 
-size_t		count_to_jump(char *buf)
+int	ft_findnchar(char *read_buf)
 {
 	int	i;
 
 	i = 0;
-	if (!buf)
+	if (!read_buf)
 		return (0);
-	while (buf[i] != '\0')
+	while (read_buf[i] != '\0')
 	{
-		if (buf[i] == '\n')
+		if (read_buf[i] == '\n')
 			return (i);
 		i++;
 	}
 	return (i);
-}
-
-int			temp_has_jump(char *temp)
-{
-	size_t		num_jump;
-	size_t		len;
-
-	len = ft_strlen(temp);
-	num_jump = count_to_jump(temp);
-	if (num_jump < len)
-		return (1);
-	return (0);
 }

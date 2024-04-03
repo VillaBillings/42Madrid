@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 13:32:49 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/02 19:30:01 by ivillanu         ###   ########.fr       */
+/*   Created: 2024/02/28 14:59:22 by ivillanu          #+#    #+#             */
+/*   Updated: 2024/04/02 12:33:42 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-size_t	ft_strlen(char *s);
-char	*ft_strlcpy(char *dst, char *src, size_t dstsize);
-char	*ft_strjoinlen(char *s1, char *s2, size_t len);
-size_t	count_to_jump(char *buf);
-char	**cut_temp(char **temp, char **final);
-char	**join_buf(char **buf, char **temp);
-char	*join_fin(char *buf, char *final);
-char	*loop(int fd, char *buf, char *temp, char *final);
 char	*get_next_line(int fd);
-int		temp_has_jump(char *temp);
+char	*ft_strcpy(char *dst, char *src);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoinlen(char *s1, char *s2, size_t len);
+char	*ft_memlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlen(char *s);
+int		ft_findnchar(char *s);
+void	*ft_calloc(size_t count, size_t size);
+char	*joinbuf(char *buf, char *buf_temp, int num_jump);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 
 #endif

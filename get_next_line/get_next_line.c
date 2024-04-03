@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 13:02:46 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/01 12:21:59 by ivillanu         ###   ########.fr       */
+/*   Created: 2024/04/02 13:33:00 by ivillanu          #+#    #+#             */
+/*   Updated: 2024/04/03 12:18:03 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,98 +14,99 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
-char	*final_jump(char *buf_final)
+char	**cut_temp(char **temp, char **final)
 {
-	int		len;
-	int		num_jump;
-	char	*temp;
+	size_t	len_to_jump;
 
-	temp = NULL;
-	len = ft_strlen(buf_final);
-	num_jump = ft_findnchar(buf_final);
-	if (num_jump != BUFFER_SIZE)
-	{
-		temp = ft_strjoinlen(temp, buf_final, num_jump);
-		ft_memlcpy(buf_final, buf_final + num_jump + 1, len);
-	}
-	else if (num_jump == BUFFER_SIZE)
-	{
-		temp = ft_strjoinlen(temp, buf_final, BUFFER_SIZE);
-	} 
+	len_to_jump = count_to_jump(*temp);
+	*final = ft_strjoinlen(*final, *temp + len_to_jump + 1, BUFFER_SIZE);
+	*temp = ft_strlcpy(*temp, *temp, len_to_jump + 1);
 	return (temp);
 }
 
-int		skip_final(char	*buf_final)
+char	**join_buf(char **buf, char **temp)
 {
-	int			num_jump;
-	size_t		len;
+	size_t	len;
 
-	len = ft_strlen(buf_final);
-	num_jump = ft_findnchar(buf_final);
-	if (num_jump < len)
-		return (1);
-	return (0);
+	len = ft_strlen(*buf);
+	*buf = ft_strjoinlen(*buf, *temp, len);
+	return (buf);
+}
+
+char	*join_fin(char *buf, char *final)
+{
+	size_t	len_to_jump;
+
+	len_to_jump = count_to_jump(final);
+	buf = ft_strjoinlen(buf, final, len_to_jump + 1);
+	final = ft_strjoinlen(final, final + len_to_jump + 1, BUFFER_SIZE);
+	return (buf);
+}
+
+char	*loop(int fd, char *buf, char *temp, char *final)
+{
+	int				len;
+	int				chars_read;
+	int				has_jump;
+	size_t			len_buf;
+
+	len = ft_strlen(buf);
+	while (buf[len + 1] != '\n')
+	{
+		chars_read = read(fd, temp, BUFFER_SIZE);
+		temp[chars_read] = '\0';
+		//  Añadir caso en el que chars_read = 0 y < 0
+		has_jump = 0;
+		if (temp_has_jump(temp))
+			cut_temp(&temp, &final);
+		len_buf = ft_strlen(temp);
+		buf = ft_strjoinlen(buf, temp, len_buf);
+		len = ft_strlen(buf);
+		printf("`%d´", buf);
+	}
+	return (buf);
 }
 
 char	*get_next_line(int fd)
 {
 	char			*buf;
-	char			*buf_temp;
-	static	char	*buf_final;
-	int				len_jump;
-	int				chars_read;
+	char			*temp;
+	static	char	*final;
 
 	buf = NULL;
-	len_jump = BUFFER_SIZE;
-	chars_read = 1;
-	buf_temp = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buf_temp)
+	temp = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!temp)
 		return (NULL);
-	if (!buf_final)
+	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buf)
+		return (NULL);
+	if (!final)
 	{
-		buf_final = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-		if (!buf_final)
+		final = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!final)
 			return (NULL);
 	}
-	buf = final_jump(buf_final);
-	while (len_jump == BUFFER_SIZE && !skip_final(buf_final))
-	{
-		chars_read = read(fd, buf_temp, BUFFER_SIZE);
-		if (chars_read <= 0)
-		{
-			free(buf_temp);
-			free(buf_final);
-			free(buf);
-			buf = NULL;
-			buf_final = NULL;
-			buf_temp = NULL;
-			return(buf);
-		}
-		buf_temp[chars_read] = '\0';
-		len_jump = ft_findnchar(buf_temp);
-		buf = ft_strjoinlen(buf, buf_temp, len_jump);
-		if (len_jump != BUFFER_SIZE)
-			ft_memlcpy(buf_final, buf_temp + len_jump + 1, BUFFER_SIZE);
-	} 
+	else
+		buf = join_fin(buf, final);
+	loop(fd, buf, temp, final);
 	return (buf);
 }
 
 int main(void)
 {
-	int file_descriptor = open("file.txt", O_RDONLY);
-	char *line;
-	int lines = 1;
-	// Process the line
-	int count = 6;
-	while (count--)
+	int		fd;
+	char	*content = "";
+	int		i;
+
+	i = 0;
+	fd = open("file.txt", O_RDONLY);
+	while (content)
 	{
-		line = get_next_line(file_descriptor);
-		printf("%i ->   %s\n", lines++, line);
-		free (line);
-		line = NULL;
+		content = get_next_line(fd);
+		printf("%s\n", content);
+		i++;
+		free(content);
 	}
-	// Free the memory allocated for the line
-	free(line);
-	close(file_descriptor);
+	close(fd);
 	return (0);
 }
