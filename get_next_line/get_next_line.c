@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:33:00 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/03 18:26:28 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/04/05 20:46:35 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**cut_temp(char **temp, char **final)
 
 	len_to_jump = count_to_jump(*temp);
 	*final = ft_strlcpy(*final, *temp + len_to_jump + 1, BUFFER_SIZE);
-	*temp = ft_strlcpy(*temp, *temp, len_to_jump + 1);
+	*temp = ft_strlcpy(*temp, *temp, len_to_jump + 2);
 	return (temp);
 }
 
@@ -30,15 +30,18 @@ char	**join_fin(char **buf, char **final)
 
 	len_to_jump = count_to_jump(*final);
 	*buf = ft_strjoinlen(*buf, *final, len_to_jump + 1);
-	*final = ft_strlcpy(*final, *final + len_to_jump + 1, ft_strlen(*final) - len_to_jump + 1);
+	*final = ft_strlcpy(*final, *final + len_to_jump + 1,
+			ft_strlen(*final) - len_to_jump + 1);
 	return (buf);
 }
 
-int		buf_has_jump(char *buf)
+int	buf_has_jump(char *buf)
 {
-	size_t		num_jump;
 	size_t		len;
+	size_t		num_jump;
 
+	if (!buf)
+		return (0);
 	len = ft_strlen(buf);
 	num_jump = count_to_jump(buf);
 	if (num_jump == len)
@@ -48,7 +51,6 @@ int		buf_has_jump(char *buf)
 
 char	**loop(int fd, char **buf, char *temp, char **final)
 {
-	int				len;
 	int				chars_read;
 	int				has_jump;
 
@@ -57,75 +59,49 @@ char	**loop(int fd, char **buf, char *temp, char **final)
 	while (has_jump)
 	{
 		chars_read = read(fd, temp, BUFFER_SIZE);
-		if (chars_read <= 0)
-            break;
+		if (chars_read < 0 || !chars_read)
+		{
+			free_null(&*buf);
+			return (free_null(&*final), free_null(&temp), NULL);
+		}
 		temp[chars_read] = '\0';
-		//  Añadir caso en el que chars_read = 0 y < 0
-		if (buf_has_jump(temp)){
+		if (!buf_has_jump(temp))
+		{
 			cut_temp(&temp, &*final);
 			has_jump = 0;
 		}
 		*buf = ft_strjoinlen(*buf, temp, ft_strlen(temp));
 		if (has_jump == 0)
-			break;
+			break ;
 	}
+	free_null(&temp);
 	return (buf);
 }
 
 char	*get_next_line(int fd)
 {
-	char			*buf;
-	char			*temp;
-	static	char	*final;
+	char		*buf;
+	char		*temp;
+	static char	*final;
 
 	buf = NULL;
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
 	temp = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp)
-		return (NULL);
+		return (free_null(&temp));
 	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buf)
-		return (NULL);
+		return (free_null(&buf));
 	if (!final)
 	{
 		final = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!final)
-			return (NULL);
+			return (free_null(&final));
 	}
 	else
-	{
-		size_t	len_to_jump;
-
-		len_to_jump = count_to_jump(final);
-		buf = ft_strjoinlen(buf, final, len_to_jump + 1);
-		final = ft_strlcpy(final, final + len_to_jump + 1, ft_strlen(final) - len_to_jump + 1);
-	}
-	
-	
-	int				len;
-	int				chars_read;
-	int				has_jump;
-
-	has_jump = 1;
-	has_jump = buf_has_jump(buf);
-	while (has_jump)
-	{
-		chars_read = read(fd, temp, BUFFER_SIZE);
-		if (!chars_read)
-		{
-			free_null(&buf);
-			free_null(&final);
-        	break;
-		}
-		temp[chars_read] = '\0';
-		//  Añadir caso en el que chars_read = 0 y < 0
-		if (!buf_has_jump(temp)){
-			cut_temp(&temp, &final);
-			has_jump = 0;
-		}
-		buf = ft_strjoinlen(buf, temp, ft_strlen(temp));
-		if (has_jump == 0)
-			break;
-	}
+		buf = *join_fin(&buf, &final);
+	loop(fd, &buf, temp, &final);
 	return (buf);
 }
 
@@ -149,26 +125,58 @@ char	*get_next_line(int fd)
 // 			return (NULL);
 // 	}
 // 	else
-// 		buf = join_fin(buf, final);
-// 	loop(fd, &buf, temp, &final);
+// 	{
+// 		size_t	len_to_jump;
+
+// 		len_to_jump = count_to_jump(final);
+// 		buf = ft_strjoinlen(buf, final, len_to_jump + 1);
+// 		final = ft_strlcpy(final, final + len_to_jump
+//				 + 1, ft_strlen(final) - len_to_jump + 1);
+// 	}
+
+// 	int				chars_read;
+// 	int				has_jump;
+
+// 	has_jump = 1;
+// 	has_jump = buf_has_jump(buf);
+// 	while (has_jump)
+// 	{
+// 		chars_read = read(fd, temp, BUFFER_SIZE);
+// 		if (!chars_read)
+// 		{
+// 			free_null(&buf);
+// 			free_null(&final);
+//         	break;
+// 		}
+// 		temp[chars_read] = '\0';
+// 		//  Añadir caso en el que chars_read = 0 y < 0
+// 		if (!buf_has_jump(temp))
+// 		{
+// 			cut_temp(&temp, &final);
+// 			has_jump = 0;
+// 		}
+// 		buf = ft_strjoinlen(buf, temp, ft_strlen(temp));
+// 		if (has_jump == 0)
+// 			break;
+// 	}
 // 	return (buf);
 // }
 
-int main(void)
-{
-	int		fd;
-	char	*content = "";
-	int		i;
+// int main(void)
+// {
+// 	int		fd;
+// 	char	*content = "";
+// 	int		i;
 
-	i = 0;
-	fd = open("file.txt", O_RDONLY);
-	while (content)
-	{
-		content = get_next_line(fd);
-		printf("%s", content);
-		i++;
-		free(content);
-	}
-	close(fd);
-	return (0);
-}
+// 	i = 0;
+// 	fd = open("file.txt", O_RDONLY);
+// 	while (content)
+// 	{
+// 		content = get_next_line(fd);
+// 		printf("%s", content);
+// 		i++;
+// 		free(content);
+// 	}
+// 	close(fd);
+// 	return (0);
+// }

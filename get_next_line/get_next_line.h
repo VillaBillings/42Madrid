@@ -6,14 +6,14 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:32:49 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/03 17:45:43 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/04/05 19:21:37 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 20
+# define BUFFER_SIZE 42
 # endif
 # include <stdlib.h>
 # include <string.h>
