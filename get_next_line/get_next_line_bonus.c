@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:33:00 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/04/11 13:08:10 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:07:48 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,27 +85,27 @@ char	*loop(int fd, char **buf, char **final)
 char	*get_next_line(int fd)
 {
 	char		*buf;
-	static char	*final;
+	static char	*final[OPEN_MAX];
 
 	buf = NULL;
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	if (!final)
+	if (!final[fd])
 	{
 		buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buf)
 			return (NULL);
 		buf[0] = '\0';
-		final = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-		if (!final)
+		final[fd] = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!final[fd])
 			return (free_null(&buf));
 	}
 	else
-		buf = join_fin(&final);
-	if (!buf || !loop(fd, &buf, &final))
-		return (free_null(&buf), free_null(&final), NULL);
+		buf = join_fin(&final[fd]);
+	if (!buf || !loop(fd, &buf, &final[fd]))
+		return (free_null(&buf), free_null(&final[fd]), NULL);
 	if (buf[0] == '\0')
-		return (free_null(&buf), free_null(&final), NULL);
+		return (free_null(&buf), free_null(&final[fd]), NULL);
 	return (buf);
 }
 
