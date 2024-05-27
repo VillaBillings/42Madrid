@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:18:47 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/05/21 20:01:21 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:15:41 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
 // prototipos de funciones o procedimientos
 int				ft_isalpha(int c);

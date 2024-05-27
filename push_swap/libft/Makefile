@@ -29,8 +29,7 @@ SOURCE = ft_isalpha.c \
 		ft_strmapi.c \
 		ft_split.c \
 		ft_strtrim.c \
-
-BONUS = ft_lstnew_bonus.c \
+		ft_lstnew_bonus.c \
 		ft_lstadd_front_bonus.c \
 		ft_lstsize_bonus.c \
 		ft_lstlast_bonus.c \
@@ -50,14 +49,8 @@ $(NAME): $(SOURCE:.c=.o)
 
 .PHONY: clean fclean re all bonus
 
-bonus: $(BONUS:.c=.o)
-
-$(BONUS:.c=.o):
-	${CC} ${CFLAGS} -c $(BONUS)
-	ar -rcs ${NAME} ${BONUS:.c=.o}
-
 clean:
-	@rm -f $(SOURCE:.c=.o) $(BONUS:.c=.o)
+	@rm -f $(SOURCE:.c=.o)
 
 fclean: clean
 	@rm -f $(NAME)
