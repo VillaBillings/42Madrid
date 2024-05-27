@@ -6,7 +6,7 @@
 /*   By: ivillanu <ivillanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:17:27 by ivillanu          #+#    #+#             */
-/*   Updated: 2024/05/27 15:40:04 by ivillanu         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:59:36 by ivillanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,36 @@ int ft_printlist(t_alist *lst)
 		printf ("nb= %i\n", lst->nb);
 		lst = lst->next;
 	}
+	printf ("\n");
+	return(count);
+}
+
+int ft_printablist(t_alist *a, t_alist *b)
+{
+	int	count;
+
+	count = 0;
+	while (a != NULL || b != NULL)
+	{
+		count++;
+		printf ("%i  %i\n", a->nb, b->nb);
+		a = a->next;
+		b = b->next;
+	}
+	while (a != NULL)
+	{
+		count++;
+		printf ("%i   \n", a->nb);
+		a = a->next;
+	}
+	while (b != NULL)
+	{
+		count++;
+		printf ("   %i\n", b->nb);
+		b = b->next;
+	}
+	printf ("_  _\n");
+	printf ("a  b\n");
 	printf ("\n");
 	return(count);
 }
@@ -71,52 +101,45 @@ int	main(int argc, char *argv[])
 	if (argc)
 	{
 		a = stack(argv);
-		ft_printlist(a);
-
 		b = stack_falso();
-		ft_printlist(b);
+		ft_printablist(a, b);
 
 				// SWAP
 		// sa(&a);
-		// ft_printlist(a);
+		// ft_printablist(a, b);
 
 		// sb(&b);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 		
 		// ss(&a, &b);
-		// ft_printlist(a);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 
 				// PUSH
 		// pa(&a, &b);
-		// ft_printlist(a);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 
 		// pb(&a, &b);
-		// ft_printlist(a);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 
 				// ROTATE
 		// ra(&a);
-		// ft_printlist(a);
+		// ft_printablist(a, b);
 
 		// rb(&b);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 		
 		// rr(&a, &b);
-		// ft_printlist(a);
-		// ft_printlist(b);
+		// ft_printablist(a, b);
 
 				// REVERS ROTATE
 		rra(&a);
-		ft_printlist(a);
+		ft_printablist(a, b);
 
 		rrb(&b);
-		ft_printlist(b);
+		ft_printablist(a, b);
 		
 		rrr(&a, &b);
-		ft_printlist(a);
-		ft_printlist(b);
+		ft_printablist(a, b);
 
 		return (0);
 	}
